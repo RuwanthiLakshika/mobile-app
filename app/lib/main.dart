@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,6 +7,24 @@ void main() {
 
 class MyApp extends StatelessWidget{
   const MyApp({super.key});
+
+ Future<void> _launchURL(BuildContext context, String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not launch $urlString')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +35,8 @@ class MyApp extends StatelessWidget{
         backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          shadowColor: Colors.red,
-          title: const Text('EXPLORE BLOGS', 
+          shadowColor: Colors.white30,
+          title: const Text('StorySphere', 
           style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20, color: Colors.white),
           ),
           actions: [
@@ -73,7 +92,7 @@ class MyApp extends StatelessWidget{
                   height: 40,
                 ),
                 GestureDetector(
-                  onTap: () => {},
+                 onTap: () => _launchURL(context, 'https://medium.com/@daruwanthilakshika/microservice-architecture-a-journey-from-monoliths-to-microservices-11b73a5019fc'), 
                   child: Center(
                     child: Container(
                       padding: const EdgeInsets.all(15),
@@ -125,7 +144,7 @@ class MyApp extends StatelessWidget{
                   height: 50,
                 ),
                 GestureDetector(
-                  onTap: () => {},
+                  onTap: () => _launchURL(context, 'https://medium.com/@daruwanthilakshika/unleashing-the-power-of-retrieval-augmented-generation-rag-6e68e617cbff'), 
                   child: Center(
                     child: Container(
                       padding: const EdgeInsets.all(15),
@@ -217,7 +236,7 @@ class MyApp extends StatelessWidget{
                   height: 50,
                 ),
                 GestureDetector(
-                  onTap: () => {},
+                  onTap: () => _launchURL(context, 'https://medium.com/@daruwanthilakshika/cloud-essentials-a-simple-guide-to-vms-storage-and-more-1fe5bb8d72f6'), 
                   child: Center(
                     child: Container(
                       padding: const EdgeInsets.all(15),
